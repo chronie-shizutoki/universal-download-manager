@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Download Manager</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="light-theme">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-download"></i>
+                    <h1 data-i18n="app.title">Universal Download Manager</h1>
+                </div>
+                <div class="header-controls">
+                    <div class="language-selector">
+                        <select id="languageSelect">
+                            <option value="en">English</option>
+                            <option value="zh">中文</option>
+                            <option value="ja">日本語</option>
+                        </select>
+                    </div>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- System Status Card -->
+            <div class="card system-status-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-heartbeat"></i> <span data-i18n="ui.system_status">System Status</span></h3>
+                    <button class="btn btn-secondary" id="testSystemBtn">
+                        <i class="fas fa-vial"></i> <span data-i18n="ui.test_system">Test System</span>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="systemStatus" class="status-display"></div>
+                </div>
+            </div>
+
+            <!-- Add Download Card -->
+            <div class="card add-download-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus"></i> <span data-i18n="ui.add_download">Add Download</span></h3>
+                </div>
+                <div class="card-body">
+                    <!-- Download Type Tabs -->
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="url">
+                            <i class="fas fa-link"></i> URL
+                        </button>
+                        <button class="tab-btn" data-tab="magnet">
+                            <i class="fas fa-magnet"></i> Magnet
+                        </button>
+                        <button class="tab-btn" data-tab="torrent">
+                            <i class="fas fa-file"></i> Torrent
+                        </button>
+                        <button class="tab-btn" data-tab="batch">
+                            <i class="fas fa-list"></i> <span data-i18n="ui.batch_add">Batch</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div class="tab-content">
+                        <!-- URL Tab -->
+                        <div class="tab-pane active" id="url-tab">
+                            <form id="urlForm" class="download-form">
+                                <div class="form-group">
+                                    <label for="urlInput" data-i18n="ui.http_url">HTTP/HTTPS URL</label>
+                                    <div class="input-group">
+                                        <input type="url" id="urlInput" placeholder="https://example.com/file.zip" required>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-download"></i> <span data-i18n="ui.start_download">Start Download</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Magnet Tab -->
+                        <div class="tab-pane" id="magnet-tab">
+                            <form id="magnetForm" class="download-form">
+                                <div class="form-group">
+                                    <label for="magnetInput" data-i18n="ui.magnet_link">Magnet Link</label>
+                                    <div class="input-group">
+                                        <input type="text" id="magnetInput" placeholder="magnet:?xt=urn:btih:..." required>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-download"></i> <span data-i18n="ui.start_download">Start Download</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Torrent Tab -->
+                        <div class="tab-pane" id="torrent-tab">
+                            <div class="upload-area" id="torrentUpload">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p data-i18n="ui.drag_drop_hint">Drag and drop torrent files here or click to browse</p>
+                                    <input type="file" id="torrentFile" accept=".torrent" multiple hidden>
+                                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('torrentFile').click()">
+                                        <i class="fas fa-folder-open"></i> <span data-i18n="ui.upload_torrent">Browse Files</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Batch Tab -->
+                        <div class="tab-pane" id="batch-tab">
+                            <div class="batch-input">
+                                <div class="form-group">
+                                    <label for="batchUrls">URLs (one per line)</label>
+                                    <textarea id="batchUrls" rows="6" placeholder="https://example.com/file1.zip&#10;magnet:?xt=urn:btih:...&#10;ftp://example.com/file2.tar.gz"></textarea>
+                                </div>
+                                <div class="upload-area small" id="urlListUpload">
+                                    <div class="upload-content">
+                                        <i class="fas fa-file-upload"></i>
+                                        <p>Or upload a text file with URLs</p>
+                                        <input type="file" id="urlListFile" accept=".txt,.urls,.list" hidden>
+                                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('urlListFile').click()">
+                                            <i class="fas fa-file-text"></i> Upload File
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="batchAddBtn">
+                                    <i class="fas fa-plus-circle"></i> <span data-i18n="ui.batch_add">Add All</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="addStatus" class="status-display"></div>
+                </div>
+            </div>
+
+            <!-- Download Progress Card -->
+            <div class="card downloads-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-tasks"></i> <span data-i18n="ui.download_progress">Download Progress</span></h3>
+                    <div class="header-controls">
+                        <div class="filter-controls">
+                            <select id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="paused">Paused</option>
+                                <option value="complete">Complete</option>
+                                <option value="error">Error</option>
+                            </select>
+                            <select id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="video">Video</option>
+                                <option value="audio">Audio</option>
+                                <option value="image">Image</option>
+                                <option value="document">Document</option>
+                                <option value="archive">Archive</option>
+                                <option value="software">Software</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary" id="refreshProgressBtn">
+                            <i class="fas fa-sync-alt"></i> <span data-i18n="ui.refresh">Refresh</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="downloadProgress" class="downloads-list">
+                        <div class="loading-spinner" id="progressLoading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span data-i18n="ui.loading">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Downloaded Files Card -->
+            <div class="card files-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-folder"></i> <span data-i18n="ui.downloaded_files">Downloaded Files</span></h3>
+                    <button class="btn btn-secondary" id="refreshFilesBtn">
+                        <i class="fas fa-sync-alt"></i> <span data-i18n="ui.refresh">Refresh</span>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="filesList" class="files-list">
+                        <div class="loading-spinner" id="filesLoading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span data-i18n="ui.loading">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Confirm Action</h4>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+                <button class="btn btn-danger" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
