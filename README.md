@@ -1,205 +1,180 @@
+## 🌐 Language:
+
+  - [English](README.md)
+  - [日本語](README-ja.md)
+  - [中文](README-zh.md)
+
 # Universal Download Manager
 
-一个现代化的通用下载管理器，支持多种下载协议和文件类型。
+A modern universal download manager that supports multiple download protocols and file types.
 
-## 🚀 功能特性
+## 🚀 Features
 
-### 多协议支持
-- **HTTP/HTTPS** - 标准网页文件下载
-- **FTP/FTPS** - 文件传输协议下载
-- **磁力链接** - BitTorrent 磁力链接下载
-- **种子文件** - .torrent 文件下载
-- **批量下载** - 支持多个URL同时下载
+### Multi-protocol Support
+- **HTTP/HTTPS** - Standard web file downloads
+- **FTP/FTPS** - File transfer protocol downloads
+- **Magnet Links** - BitTorrent magnet link downloads
+- **Torrent Files** - .torrent file downloads
+- **Batch Downloads** - Support for multiple simultaneous URL downloads
 
-### 现代化界面
-- 🎨 **响应式设计** - 完美适配桌面和移动设备
-- 🌙 **深色/浅色主题** - 支持主题切换
-- 📱 **多标签页界面** - 清晰的功能分类
-- 🎯 **拖拽上传** - 支持拖拽种子文件和URL列表
-- ⚡ **实时进度** - 动画进度条和状态更新
-- 🔍 **过滤搜索** - 按状态和类别过滤下载
+### Modern Interface
+- 🎨 **Responsive Design** - Perfectly adapted for desktop and mobile devices
+- 🌙 **Dark/Light Themes** - Theme switching support
+- 📱 **Multi-tab Interface** - Clear function categorization
+- 🎯 **Drag and Drop Upload** - Support for dragging torrent files and URL lists
+- ⚡ **Real-time Progress** - Animated progress bars and status updates
+- 🔍 **Filter Search** - Filter downloads by status and category
 
-### 国际化支持
-- 🌍 **多语言** - 支持中文、英文、日文
-- 🔄 **动态切换** - 运行时切换语言
-- 📝 **完整翻译** - 前后端完整国际化
+### Internationalization Support
+- 🌍 **Multi-language** - Support for Chinese, English, and Japanese
+- 🔄 **Dynamic Switching** - Language switching at runtime
+- 📝 **Complete Translation** - Full front-end and back-end internationalization
 
-### 技术特性
-- 🏗️ **模块化架构** - 清晰的代码结构
-- 🔧 **配置管理** - 灵活的配置系统
-- 🛡️ **安全验证** - 文件和URL安全检查
-- 📊 **实时统计** - 下载速度和进度统计
-- 🔌 **WebSocket** - 实时状态更新
+### Technical Features
+- 🏗️ **Modular Architecture** - Clear code structure
+- 🔧 **Configuration Management** - Flexible configuration system
+- 🛡️ **Security Verification** - File and URL security checks
+- 📊 **Real-time Statistics** - Download speed and progress statistics
+- 🔌 **WebSocket** - Real-time status updates
 
-## 📦 安装部署
+## 📦 Installation and Deployment
 
-### 系统要求
+### System Requirements
 - Python 3.8+
 - aria2c
-- 现代浏览器
+- Modern browser
 
-### 快速开始
+### Quick Start
 
-1. **克隆项目**
+1. **Clone the Project**
 ```bash
 git clone <repository-url>
 cd magnet_refactored
 ```
 
-2. **安装依赖**
+2. **Install Dependencies**
 ```bash
-# 安装 Python 依赖
+# Install Python dependencies
 pip install -r requirements.txt
 
-# 安装 aria2 (Ubuntu/Debian)
+# Install aria2 (Ubuntu/Debian)
 sudo apt update && sudo apt install -y aria2
 
-# 安装 aria2 (macOS)
+# Install aria2 (macOS)
 brew install aria2
 
-# 安装 aria2 (Windows)
-# 下载并安装 aria2 from https://aria2.github.io/
+# Install aria2 (Windows)
+# Download and install aria2 from https://aria2.github.io/
 ```
 
-3. **启动应用**
+3. **Start the Application**
 ```bash
 python app.py
 ```
 
-4. **访问应用**
-打开浏览器访问 `http://localhost:5000`
+4. **Access the Application**
+Open your browser and visit `http://localhost:5000`
 
-## 🏗️ 项目结构
+## 🏗️ Project Structure
 
 ```
 magnet_refactored/
-├── app.py                 # Flask 主应用
-├── requirements.txt       # Python 依赖
-├── README.md             # 项目说明
-├── backend/              # 后端代码
-│   ├── config/          # 配置管理
-│   │   ├── settings.py  # 应用配置
-│   │   └── aria2.py     # aria2 配置
-│   ├── models/          # 数据模型
-│   │   └── download.py  # 下载任务模型
-│   ├── services/        # 业务服务
-│   │   ├── aria2_service.py    # aria2 服务
-│   │   ├── download_service.py # 下载服务
-│   │   ├── file_service.py     # 文件服务
-│   │   └── i18n_service.py     # 国际化服务
-│   ├── utils/           # 工具函数
-│   │   ├── validators.py # 验证工具
-│   │   └── formatters.py # 格式化工具
-│   └── locales/         # 国际化文件
-│       ├── en.json      # 英文翻译
-│       ├── zh.json      # 中文翻译
-│       └── ja.json      # 日文翻译
-├── frontend/            # 前端代码
-│   ├── index.html       # 主页面
-│   ├── css/            # 样式文件
-│   │   ├── main.css    # 主样式
-│   │   └── themes.css  # 主题样式
-│   └── js/             # JavaScript 文件
-│       ├── app.js      # 主应用逻辑
-│       ├── ui.js       # UI 交互逻辑
-│       ├── api.js      # API 调用封装
-│       └── i18n.js     # 前端国际化
-└── downloads/          # 下载文件目录
+├── app.py                 # Flask main application
+├── requirements.txt       # Python dependencies
+├── README.md             # Project description
+├── backend/              # Backend code
+│   ├── config/          # Configuration management
+│   │   ├── settings.py  # Application configuration
+│   │   └── aria2.py     # aria2 configuration
+│   ├── models/          # Data models
+│   │   └── download.py  # Download task model
+│   ├── services/        # Business services
+│   │   ├── aria2_service.py    # aria2 service
+│   │   ├── download_service.py # Download service
+│   │   ├── file_service.py     # File service
+│   │   └── i18n_service.py     # Internationalization service
+│   ├── utils/           # Utility functions
+│   │   ├── validators.py # Validation tools
+│   │   └── formatters.py # Formatting tools
+│   └── locales/         # Internationalization files
+│       ├── en.json      # English translation
+│       ├── zh.json      # Chinese translation
+│       └── ja.json      # Japanese translation
+├── frontend/            # Frontend code
+│   ├── index.html       # Main page
+│   ├── css/            # Style files
+│   │   ├── main.css    # Main styles
+│   │   └── themes.css  # Theme styles
+│   └── js/             # JavaScript files
+│       ├── app.js      # Main application logic
+│       ├── ui.js       # UI interaction logic
+│       ├── api.js      # API call wrapper
+│       └── i18n.js     # Frontend internationalization
+└── downloads/          # Download files directory
 ```
 
-## 🔧 配置说明
+## 🔧 Configuration Instructions
 
-### 环境变量
+### Environment Variables
 ```bash
-# Flask 配置
+# Flask configuration
 FLASK_HOST=0.0.0.0
 FLASK_PORT=5000
 FLASK_DEBUG=false
 
-# aria2 配置
+# aria2 configuration
 ARIA2_RPC_PORT=6800
 ARIA2_RPC_SECRET=your_secret
 
-# 下载配置
+# Download configuration
 MAX_CONNECTIONS_PER_SERVER=4
 MAX_RETRIES=3
 DOWNLOAD_TIMEOUT=60
 
-# BitTorrent 配置
+# BitTorrent configuration
 BT_MAX_PEERS=50
 SEED_RATIO=1.0
 SEED_TIME=60
 ```
 
-### aria2 配置
-应用会自动启动和管理 aria2c 守护进程，支持以下功能：
-- 自动重连和错误恢复
-- 会话保存和恢复
-- 多连接下载优化
-- BitTorrent 协议支持
+### aria2 Configuration
+The application automatically starts and manages the aria2c daemon with the following features:
+- Automatic reconnection and error recovery
+- Session saving and restoration
+- Multi-connection download optimization
+- BitTorrent protocol support
 
-## 📚 API 文档
+## 📚 API Documentation
 
-### 下载管理
-- `GET /api/v1/downloads` - 获取下载列表
-- `POST /api/v1/downloads/url` - 添加URL下载
-- `POST /api/v1/downloads/magnet` - 添加磁力链接
-- `POST /api/v1/downloads/torrent` - 上传种子文件
-- `POST /api/v1/downloads/batch` - 批量添加下载
-- `POST /api/v1/downloads/{gid}/pause` - 暂停下载
-- `POST /api/v1/downloads/{gid}/resume` - 恢复下载
-- `DELETE /api/v1/downloads/{gid}` - 删除下载
+### Download Management
+- `GET /api/v1/downloads` - Get download list
+- `POST /api/v1/downloads/url` - Add URL download
+- `POST /api/v1/downloads/magnet` - Add magnet link
+- `POST /api/v1/downloads/torrent` - Upload torrent file
+- `POST /api/v1/downloads/batch` - Add batch downloads
+- `POST /api/v1/downloads/{gid}/pause` - Pause download
+- `POST /api/v1/downloads/{gid}/resume` - Resume download
+- `DELETE /api/v1/downloads/{gid}` - Delete download
 
-### 文件管理
-- `GET /api/v1/files` - 获取文件列表
-- `GET /api/v1/files/{filename}/download` - 下载文件
-- `DELETE /api/v1/files/{filename}` - 删除文件
+### File Management
+- `GET /api/v1/files` - Get file list
+- `GET /api/v1/files/{filename}/download` - Download file
+- `DELETE /api/v1/files/{filename}` - Delete file
 
-### 系统状态
-- `GET /api/v1/system/test` - 测试系统状态
-- `GET /api/v1/statistics` - 获取下载统计
-- `GET /api/v1/health` - 健康检查
+### System Status
+- `GET /api/v1/system/test` - Test system status
+- `GET /api/v1/statistics` - Get download statistics
+- `GET /api/v1/health` - Health check
 
-## 🌟 主要改进
+## 🤝 Contribution Guide
 
-### 相比原项目的改进
-1. **解决高耦合问题**
-   - 前后端完全分离
-   - 模块化架构设计
-   - 清晰的服务层划分
+Welcome to submit Issues and Pull Requests!
 
-2. **解决中文硬编码问题**
-   - 完整的国际化支持
-   - 多语言动态切换
-   - 前后端统一翻译
-
-3. **界面设计优化**
-   - 现代化响应式设计
-   - 深色/浅色主题支持
-   - 更好的用户体验
-
-4. **功能扩展**
-   - 支持更多下载协议
-   - 批量下载功能
-   - 文件管理界面
-   - 实时进度更新
-
-5. **代码质量提升**
-   - 完整的错误处理
-   - 安全性验证
-   - 配置管理优化
-   - 代码文档完善
-
-## 🤝 贡献指南
-
-欢迎提交 Issue 和 Pull Request！
-
-## 📄 许可证
+## 📄 License
 
 MIT License
 
-## 🔗 相关链接
+## 🔗 Related Links
 
-- [aria2 官网](https://aria2.github.io/)
-- [Flask 文档](https://flask.palletsprojects.com/)
-
+- [aria2 Official Website](https://aria2.github.io/)
+- [Flask Documentation](https://flask.palletsprojects.com/)
