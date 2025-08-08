@@ -36,6 +36,8 @@
 - 🛡️ **安全验证** - 文件和URL安全检查
 - 📊 **实时统计** - 下载速度和进度统计
 - 🔌 **WebSocket** - 实时状态更新
+<img width="1645" height="869" alt="image" src="https://github.com/user-attachments/assets/8bfa8adb-d296-4433-b2d3-50444bf90520" />
+<img width="1665" height="869" alt="image" src="https://github.com/user-attachments/assets/10c90ee4-2d78-4a59-a5ed-f618b29398af" />
 
 ## 📦 安装部署
 
