@@ -202,5 +202,4 @@ MIT License
 
 - [aria2 官网](https://aria2.github.io/)
 - [Flask 文档](https://flask.palletsprojects.com/)
-- [原项目地址](https://github.com/quiettimejsg/magnet)
 
