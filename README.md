@@ -37,6 +37,11 @@ A modern universal download manager that supports multiple download protocols an
 - 📊 **Real-time Statistics** - Download speed and progress statistics
 - 🔌 **WebSocket** - Real-time status updates
 
+<img width="1704" height="869" alt="image" src="https://github.com/user-attachments/assets/250e1a36-27f5-4e30-90a9-8bde1f4a03a2" />
+<img width="1691" height="869" alt="image" src="https://github.com/user-attachments/assets/9242f25e-3849-4ba7-ae53-6d7f9500eab4" />
+
+
+
 ## 📦 Installation and Deployment
 
 ### System Requirements
