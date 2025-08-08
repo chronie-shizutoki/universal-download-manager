@@ -8,7 +8,7 @@ import time
 import os
 import signal
 from typing import Dict, List, Optional, Any, Tuple
-from ..config.settings import Config, DOWNLOADS_DIR
+from ..config.settings import DOWNLOADS_DIR
 from ..config.aria2 import Aria2Config
 from ..models.download import DownloadTask, DownloadType, DownloadStatus
 from ..utils.formatters import SizeFormatter, TimeFormatter
@@ -17,8 +17,8 @@ class Aria2Service:
     """Service for managing aria2c daemon and RPC communications"""
     
     def __init__(self):
-        self.rpc_url = f"http://localhost:{Config.ARIA2_RPC_PORT}/jsonrpc"
-        self.rpc_secret = Config.ARIA2_RPC_SECRET
+        self.rpc_url = Aria2Config.RPC_URL
+        self.rpc_secret = Aria2Config.RPC_SECRET
         self.process = None
         self.session_file = DOWNLOADS_DIR / "aria2.session"
         
@@ -146,16 +146,8 @@ class Aria2Service:
         if params is None:
             params = []
         
-        # Add secret token if configured
-        if self.rpc_secret:
-            params.insert(0, f"token:{self.rpc_secret}")
-        
-        payload = {
-            "jsonrpc": "2.0",
-            "method": method,
-            "params": params,
-            "id": "1"
-        }
+        # Use Aria2Config to build RPC parameters
+        payload = Aria2Config.get_rpc_params(method, params)
         
         try:
             response = requests.post(
