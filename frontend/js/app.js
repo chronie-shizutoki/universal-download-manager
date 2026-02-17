@@ -421,7 +421,7 @@ class App {
     handleOnlineStatus() {
         if (this.isOnline) {
             // Reconnect WebSocket if needed
-            if (!this.websocket || this.websocket.readyState === WebSocket.CLOSED) {
+            if (!this.websocket || !this.websocket.connected) {
                 this.initWebSocket();
             }
             

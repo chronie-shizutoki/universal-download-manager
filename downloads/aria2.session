@@ -1,0 +1,14 @@
+D:/chronie-app/universal-download-manager/downloads/b70f683d2d5a0ae8f47c849402646c737073ba1c.torrent
+ gid=c89acb75a00ce90c
+ dir=D:\chronie-app\universal-download-manager\downloads
+ split=16
+ allow-overwrite=true
+ continue=true
+ auto-file-renaming=false
+ max-connection-per-server=16
+ min-split-size=5242880
+ seed-time=60
+ seed-ratio=1.0
+ enable-peer-exchange=true
+ bt-max-peers=50
+ bt-enable-lpd=true

@@ -4,7 +4,7 @@ Validation utilities
 import re
 from urllib.parse import urlparse
 from typing import List, Tuple
-from ..models.download import DownloadType, UrlInfo
+from ..config.settings import Config
 
 class UrlValidator:
     """URL validation utilities"""
@@ -102,7 +102,7 @@ class FileValidator:
         'url_list': ['.txt', '.urls', '.list']
     }
     
-    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+    MAX_FILE_SIZE = Config.MAX_UPLOAD_SIZE
     
     @staticmethod
     def validate_torrent_file(filename: str, content: bytes) -> Tuple[bool, str]:
@@ -111,10 +111,15 @@ class FileValidator:
             return False, "File must have .torrent extension"
         
         if len(content) > FileValidator.MAX_FILE_SIZE:
-            return False, "File too large (max 10MB)"
+            return False, f"File too large (max {FileValidator.MAX_FILE_SIZE // (1024 * 1024)}MB)"
         
-        # Basic torrent file validation
-        if not content.startswith(b'd'):
+        # Basic torrent file validation - check for bencode structure
+        # Torrent files use bencode encoding which starts with 'd' (dict) or 'l' (list)
+        if not content or len(content) < 10:
+            return False, "Invalid torrent file: file too small"
+        
+        # Check for bencode structure (starts with d, l, or i)
+        if content[0] not in (ord(b'd'), ord(b'l'), ord(b'i')):
             return False, "Invalid torrent file format"
         
         return True, ""
@@ -128,7 +133,7 @@ class FileValidator:
             return False, f"File must have one of these extensions: {', '.join(allowed_exts)}"
         
         if len(content.encode()) > FileValidator.MAX_FILE_SIZE:
-            return False, "File too large (max 10MB)"
+            return False, f"File too large (max {FileValidator.MAX_FILE_SIZE // (1024 * 1024)}MB)"
         
         # Check if file contains valid URLs
         urls = UrlValidator.parse_url_file(content)

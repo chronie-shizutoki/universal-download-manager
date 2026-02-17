@@ -79,5 +79,5 @@ class Config:
     BT_LISTEN_PORT = int(os.environ.get('BT_LISTEN_PORT', 6881)) if os.environ.get('BT_LISTEN_PORT') else None
     
     # File upload settings
-    MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
+    MAX_UPLOAD_SIZE = 50 * 1024 * 1024  # 50MB
 

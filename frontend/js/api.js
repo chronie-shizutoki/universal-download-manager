@@ -68,12 +68,15 @@ class ApiClient {
     async post(endpoint, data = {}, options = {}) {
         const config = {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             ...options
         };
         
         if (data instanceof FormData) {
             // Remove Content-Type header for FormData (browser will set it with boundary)
-            delete config.headers?.['Content-Type'];
+            delete config.headers['Content-Type'];
             config.body = data;
         } else {
             config.body = JSON.stringify(data);
@@ -186,47 +189,42 @@ class ApiClient {
     
     // WebSocket connection for real-time updates
     connectWebSocket() {
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = `${protocol}//${window.location.host}/ws`;
+        const socket = io({
+            transports: ['websocket', 'polling'],
+            reconnection: true,
+            reconnectionDelay: 5000,
+            reconnectionAttempts: 10
+        });
         
-        const ws = new WebSocket(wsUrl);
-        
-        ws.onopen = () => {
+        socket.on('connect', () => {
             console.log('WebSocket connected');
             this.dispatchEvent('websocket:connected');
-        };
+        });
         
-        ws.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                this.dispatchEvent('websocket:message', data);
-                
-                // Dispatch specific events based on message type
-                if (data.type) {
-                    this.dispatchEvent(`websocket:${data.type}`, data);
-                }
-            } catch (error) {
-                console.error('Failed to parse WebSocket message:', error);
-            }
-        };
+        socket.on('connected', (data) => {
+            console.log('Server confirmed connection:', data);
+        });
         
-        ws.onclose = (event) => {
-            console.log('WebSocket disconnected:', event.code, event.reason);
-            this.dispatchEvent('websocket:disconnected', { code: event.code, reason: event.reason });
-            
-            // Attempt to reconnect after 5 seconds
-            setTimeout(() => {
-                console.log('Attempting to reconnect WebSocket...');
-                this.connectWebSocket();
-            }, 5000);
-        };
+        socket.on('progress_update', (data) => {
+            this.dispatchEvent('websocket:message', data);
+            this.dispatchEvent('websocket:progress', data);
+        });
         
-        ws.onerror = (error) => {
-            console.error('WebSocket error:', error);
+        socket.on('disconnect', (reason) => {
+            console.log('WebSocket disconnected:', reason);
+            this.dispatchEvent('websocket:disconnected', { reason });
+        });
+        
+        socket.on('connect_error', (error) => {
+            console.error('WebSocket connection error:', error);
             this.dispatchEvent('websocket:error', error);
-        };
+        });
         
-        return ws;
+        socket.on('subscribed', (data) => {
+            console.log('Subscribed to channel:', data);
+        });
+        
+        return socket;
     }
     
     // Event system for API events

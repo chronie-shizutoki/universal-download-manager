@@ -11,6 +11,7 @@ sys.path.insert(0, str(BACKEND_DIR))
 
 from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 from werkzeug.utils import secure_filename
 import json
 import logging
@@ -43,6 +44,9 @@ def create_app():
         MAX_CONTENT_LENGTH=Config.MAX_UPLOAD_SIZE,
         UPLOAD_FOLDER=str(DOWNLOADS_DIR)
     )
+    
+    # Initialize SocketIO
+    socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
     
     # Initialize services on startup
     def initialize_services():
@@ -523,10 +527,55 @@ def create_app():
             'version': '1.0.0'
         })
     
-    return app
+    # WebSocket events
+    @socketio.on('connect')
+    def handle_connect():
+        """Handle WebSocket connection"""
+        logger.info('Client connected via WebSocket')
+        emit('connected', {'status': 'connected'})
+    
+    @socketio.on('disconnect')
+    def handle_disconnect():
+        """Handle WebSocket disconnection"""
+        logger.info('Client disconnected from WebSocket')
+    
+    @socketio.on('subscribe_downloads')
+    def handle_subscribe_downloads():
+        """Handle subscription to download updates"""
+        emit('subscribed', {'channel': 'downloads'})
+    
+    def broadcast_progress():
+        """Broadcast download progress to all connected clients"""
+        try:
+            downloads = download_service.get_downloads('all', '', 100)
+            socketio.emit('progress_update', {
+                'type': 'progress',
+                'downloads': downloads.get('downloads', []),
+                'timestamp': datetime.now().isoformat()
+            })
+        except Exception as e:
+            logger.error(f"Failed to broadcast progress: {e}")
+    
+    # Start background task for progress updates
+    def start_progress_updater():
+        """Start background task for periodic progress updates"""
+        import threading
+        import time
+        
+        def update_loop():
+            while True:
+                time.sleep(Config.PROGRESS_UPDATE_INTERVAL)
+                broadcast_progress()
+        
+        thread = threading.Thread(target=update_loop, daemon=True)
+        thread.start()
+    
+    start_progress_updater()
+    
+    return app, socketio
 
 # Create app instance
-app = create_app()
+app, socketio = create_app()
 
 if __name__ == '__main__':
     # Development server
@@ -536,10 +585,11 @@ if __name__ == '__main__':
     logger.info(f"Starting Universal Download Manager on port {port}")
     logger.info(f"Debug mode: {debug}")
     
-    app.run(
+    socketio.run(
+        app,
         host='0.0.0.0',
         port=port,
         debug=debug,
-        threaded=True
+        allow_unsafe_werkzeug=True
     )
 

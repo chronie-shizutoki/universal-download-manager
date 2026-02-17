@@ -7,11 +7,15 @@ import subprocess
 import time
 import os
 import signal
+import platform
 from typing import Dict, List, Optional, Any, Tuple
-from ..config.settings import DOWNLOADS_DIR
+from ..config.settings import DOWNLOADS_DIR, Config
 from ..config.aria2 import Aria2Config
 from ..models.download import DownloadTask, DownloadType, DownloadStatus
 from ..utils.formatters import SizeFormatter, TimeFormatter
+
+# Platform-specific imports
+IS_WINDOWS = platform.system() == 'Windows'
 
 class Aria2Service:
     """Service for managing aria2c daemon and RPC communications"""
@@ -38,13 +42,23 @@ class Aria2Service:
             # Build aria2c command
             cmd = self._build_aria2_command()
             
-            # Start daemon
-            self.process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                preexec_fn=os.setsid  # Create new process group
-            )
+            # Start daemon (platform-specific)
+            if IS_WINDOWS:
+                # Windows: use CREATE_NEW_PROCESS_GROUP to run in background
+                self.process = subprocess.Popen(
+                    cmd,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+                )
+            else:
+                # Unix-like: use preexec_fn to create new process group
+                self.process = subprocess.Popen(
+                    cmd,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    preexec_fn=os.setsid
+                )
             
             # Wait for daemon to start
             for _ in range(30):  # Wait up to 30 seconds
@@ -71,11 +85,19 @@ class Aria2Service:
             
             # Force kill if still running
             if self.process and self.process.poll() is None:
-                os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
-                time.sleep(2)
-                
-                if self.process.poll() is None:
-                    os.killpg(os.getpgid(self.process.pid), signal.SIGKILL)
+                if IS_WINDOWS:
+                    # Windows: use taskkill
+                    subprocess.run(
+                        ['taskkill', '/F', '/PID', str(self.process.pid)],
+                        capture_output=True
+                    )
+                else:
+                    # Unix-like: use killpg
+                    os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
+                    time.sleep(2)
+                    
+                    if self.process.poll() is None:
+                        os.killpg(os.getpgid(self.process.pid), signal.SIGKILL)
             
             return True
             
@@ -126,18 +148,25 @@ class Aria2Service:
             f"--input-file={self.session_file}",
             f"--save-session={self.session_file}",
             "--save-session-interval=60",
-            "--daemon"
+            "--max-concurrent-downloads=5",
+            "--max-connection-per-server=16",
+            "--min-split-size=5M",
+            "--split=16",
+            "--continue=true",
+            "--allow-overwrite=true",
+            "--auto-file-renaming=false",
+            "--summary-interval=1",
+            "--log-level=info",
+            "--console-log-level=info"
         ]
+        
+        # Add daemon flag only for non-Windows platforms
+        if not IS_WINDOWS:
+            cmd.append("--daemon")
         
         # Add RPC secret if configured
         if self.rpc_secret:
             cmd.append(f"--rpc-secret={self.rpc_secret}")
-        
-        # Add aria2 configuration options
-        aria2_config = Aria2Config.get_config()
-        for key, value in aria2_config.items():
-            if value is not None:
-                cmd.append(f"--{key}={value}")
         
         return cmd
     
