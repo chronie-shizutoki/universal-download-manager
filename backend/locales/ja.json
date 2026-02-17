@@ -24,7 +24,10 @@
     "no_urls_found": "有効なURLが見つかりません",
     "aria2_unavailable": "aria2cが利用できません",
     "rpc_connection_failed": "aria2 RPCへの接続に失敗しました",
-    "system_test_failed": "システムテストに失敗しました"
+    "system_test_failed": "システムテストに失敗しました",
+    "confirm_delete": "本当に削除しますか",
+    "action_failed": "操作に失敗しました",
+    "file_deleted": "ファイルを削除しました"
   },
   "ui": {
     "add_download": "ダウンロード追加",
@@ -61,11 +64,25 @@
     "confirm_remove": "このダウンロードを削除してもよろしいですか？",
     "drag_drop_hint": "ファイルをここにドラッグ＆ドロップするか、クリックして参照",
     "batch_add": "一括追加",
+    "download": "ダウンロード",
+    "delete": "削除",
+    "confirm_action": "操作の確認",
+    "are_you_sure": "本当によろしいですか？",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "urls_per_line": "URLリスト（1行に1つ）",
+    "or_upload_urls": "またはURLを含むテキストファイルをアップロード",
+    "upload_file": "ファイルをアップロード",
+    "retry": "再試行",
     "settings": "設定",
     "language": "言語",
     "theme": "テーマ",
     "dark_mode": "ダークモード",
     "light_mode": "ライトモード"
+  },
+  "filter": {
+    "all_status": "すべての状態",
+    "all_categories": "すべてのカテゴリ"
   },
   "categories": {
     "video": "動画",

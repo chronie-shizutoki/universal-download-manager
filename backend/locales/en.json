@@ -14,7 +14,7 @@
   "messages": {
     "download_started": "Download started successfully",
     "download_paused": "Download paused",
-    "download_resumed": "Download resumed", 
+    "download_resumed": "Download resumed",
     "download_removed": "Download removed",
     "download_failed": "Download failed",
     "invalid_url": "Invalid URL format",
@@ -24,7 +24,10 @@
     "no_urls_found": "No valid URLs found",
     "aria2_unavailable": "aria2c is not available",
     "rpc_connection_failed": "Failed to connect to aria2 RPC",
-    "system_test_failed": "System test failed"
+    "system_test_failed": "System test failed",
+    "confirm_delete": "Are you sure you want to delete",
+    "action_failed": "Action failed",
+    "file_deleted": "File deleted successfully"
   },
   "ui": {
     "add_download": "Add Download",
@@ -61,15 +64,29 @@
     "confirm_remove": "Are you sure you want to remove this download?",
     "drag_drop_hint": "Drag and drop files here or click to browse",
     "batch_add": "Batch Add",
+    "download": "Download",
+    "delete": "Delete",
+    "confirm_action": "Confirm Action",
+    "are_you_sure": "Are you sure?",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "urls_per_line": "URLs (one per line)",
+    "or_upload_urls": "Or upload a text file with URLs",
+    "upload_file": "Upload File",
+    "retry": "Retry",
     "settings": "Settings",
     "language": "Language",
     "theme": "Theme",
     "dark_mode": "Dark Mode",
     "light_mode": "Light Mode"
   },
+  "filter": {
+    "all_status": "All Status",
+    "all_categories": "All Categories"
+  },
   "categories": {
     "video": "Video",
-    "audio": "Audio", 
+    "audio": "Audio",
     "image": "Image",
     "document": "Document",
     "archive": "Archive",

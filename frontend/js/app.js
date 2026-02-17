@@ -6,6 +6,8 @@ class App {
         this.refreshInterval = null;
         this.websocket = null;
         this.isOnline = navigator.onLine;
+        this.filterStatus = '';
+        this.filterCategory = '';
         
         this.init();
     }
@@ -203,7 +205,15 @@ class App {
                 window.ui.showLoading('progressLoading');
             }
             
-            const result = await window.api.getDownloads();
+            const filters = {};
+            if (this.filterStatus) {
+                filters.status = this.filterStatus;
+            }
+            if (this.filterCategory) {
+                filters.category = this.filterCategory;
+            }
+            
+            const result = await window.api.getDownloads(filters);
             
             if (window.ui) {
                 window.ui.hideLoading('progressLoading');

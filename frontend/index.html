@@ -19,12 +19,25 @@
                     <h1 data-i18n="app.title">Universal Download Manager</h1>
                 </div>
                 <div class="header-controls">
-                    <div class="language-selector">
-                        <select id="languageSelect">
-                            <option value="en">English</option>
-                            <option value="zh">中文</option>
-                            <option value="ja">日本語</option>
-                        </select>
+                    <div class="custom-select" id="languageSelector">
+                        <div class="custom-select-trigger">
+                            <span class="selected-value">English</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <div class="custom-select-menu">
+                            <div class="custom-select-option selected" data-value="en">
+                                <span>English</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="custom-select-option" data-value="zh">
+                                <span>中文</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="custom-select-option" data-value="ja">
+                                <span>日本語</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                        </div>
                     </div>
                     <button class="theme-toggle" id="themeToggle">
                         <i class="fas fa-moon"></i>
@@ -122,16 +135,16 @@
                         <div class="tab-pane" id="batch-tab">
                             <div class="batch-input">
                                 <div class="form-group">
-                                    <label for="batchUrls">URLs (one per line)</label>
+                                    <label for="batchUrls" data-i18n="ui.urls_per_line">URLs (one per line)</label>
                                     <textarea id="batchUrls" rows="6" placeholder="https://example.com/file1.zip&#10;magnet:?xt=urn:btih:...&#10;ftp://example.com/file2.tar.gz"></textarea>
                                 </div>
                                 <div class="upload-area small" id="urlListUpload">
                                     <div class="upload-content">
                                         <i class="fas fa-file-upload"></i>
-                                        <p>Or upload a text file with URLs</p>
+                                        <p data-i18n="ui.or_upload_urls">Or upload a text file with URLs</p>
                                         <input type="file" id="urlListFile" accept=".txt,.urls,.list" hidden>
                                         <button type="button" class="btn btn-secondary" onclick="document.getElementById('urlListFile').click()">
-                                            <i class="fas fa-file-text"></i> Upload File
+                                            <i class="fas fa-file-text"></i> <span data-i18n="ui.upload_file">Upload File</span>
                                         </button>
                                     </div>
                                 </div>
@@ -152,23 +165,74 @@
                     <h3><i class="fas fa-tasks"></i> <span data-i18n="ui.download_progress">Download Progress</span></h3>
                     <div class="header-controls">
                         <div class="filter-controls">
-                            <select id="statusFilter">
-                                <option value="">All Status</option>
-                                <option value="active">Active</option>
-                                <option value="paused">Paused</option>
-                                <option value="complete">Complete</option>
-                                <option value="error">Error</option>
-                            </select>
-                            <select id="categoryFilter">
-                                <option value="">All Categories</option>
-                                <option value="video">Video</option>
-                                <option value="audio">Audio</option>
-                                <option value="image">Image</option>
-                                <option value="document">Document</option>
-                                <option value="archive">Archive</option>
-                                <option value="software">Software</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <div class="custom-select" id="statusFilter">
+                                <div class="custom-select-trigger">
+                                    <span class="selected-value" data-i18n="filter.all_status">All Status</span>
+                                    <i class="fas fa-chevron-down arrow"></i>
+                                </div>
+                                <div class="custom-select-menu">
+                                    <div class="custom-select-option selected" data-value="">
+                                        <span data-i18n="filter.all_status">All Status</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="active">
+                                        <span data-i18n="status.active">Active</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="paused">
+                                        <span data-i18n="status.paused">Paused</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="complete">
+                                        <span data-i18n="status.complete">Complete</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="error">
+                                        <span data-i18n="status.error">Error</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="custom-select" id="categoryFilter">
+                                <div class="custom-select-trigger">
+                                    <span class="selected-value" data-i18n="filter.all_categories">All Categories</span>
+                                    <i class="fas fa-chevron-down arrow"></i>
+                                </div>
+                                <div class="custom-select-menu">
+                                    <div class="custom-select-option selected" data-value="">
+                                        <span data-i18n="filter.all_categories">All Categories</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="video">
+                                        <span data-i18n="categories.video">Video</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="audio">
+                                        <span data-i18n="categories.audio">Audio</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="image">
+                                        <span data-i18n="categories.image">Image</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="document">
+                                        <span data-i18n="categories.document">Document</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="archive">
+                                        <span data-i18n="categories.archive">Archive</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="software">
+                                        <span data-i18n="categories.software">Software</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                    <div class="custom-select-option" data-value="other">
+                                        <span data-i18n="categories.other">Other</span>
+                                        <i class="fas fa-check checkmark"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button class="btn btn-secondary" id="refreshProgressBtn">
                             <i class="fas fa-sync-alt"></i> <span data-i18n="ui.refresh">Refresh</span>
@@ -212,15 +276,19 @@
     <div id="confirmModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Confirm Action</h4>
+                <h4 data-i18n="ui.confirm_action">Confirm Action</h4>
                 <button class="modal-close">&times;</button>
             </div>
             <div class="modal-body">
-                <p id="confirmMessage">Are you sure?</p>
+                <p id="confirmMessage" data-i18n="ui.are_you_sure">Are you sure?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
-                <button class="btn btn-danger" id="confirmOk">Confirm</button>
+                <button class="btn btn-secondary" id="confirmCancel">
+                    <span data-i18n="ui.cancel">Cancel</span>
+                </button>
+                <button class="btn btn-danger" id="confirmOk">
+                    <span data-i18n="ui.confirm">Confirm</span>
+                </button>
             </div>
         </div>
     </div>
@@ -228,6 +296,7 @@
     <!-- Scripts -->
     <script src="js/i18n.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/dropdown.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
 </body>

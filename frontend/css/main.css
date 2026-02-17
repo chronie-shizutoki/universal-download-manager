@@ -42,7 +42,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: var(--bg-secondary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -895,5 +895,151 @@ textarea {
         flex: 1;
         justify-content: center;
     }
+}
+
+/* Custom Dropdown */
+.custom-select {
+    position: relative;
+    display: inline-block;
+    min-width: 150px;
+}
+
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.custom-select-trigger:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-tertiary);
+}
+
+.custom-select-trigger.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.custom-select-trigger .arrow {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    transition: transform 0.2s ease;
+}
+
+.custom-select-trigger.active .arrow {
+    transform: rotate(180deg);
+}
+
+.custom-select-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.custom-select-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-select-option {
+    padding: 0.625rem 0.75rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    outline: none;
+}
+
+.custom-select-option:focus {
+    background: var(--bg-tertiary);
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.custom-select-option:hover {
+    background: var(--bg-tertiary);
+    color: var(--primary-color);
+}
+
+.custom-select-option.selected {
+    background: var(--primary-color);
+    color: white;
+}
+
+.custom-select-option.selected:hover {
+    background: var(--primary-hover);
+}
+
+.custom-select-option .checkmark {
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.custom-select-option.selected .checkmark {
+    opacity: 1;
+}
+
+/* Dark Theme Custom Dropdown */
+.dark-theme .custom-select-trigger {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark-theme .custom-select-trigger:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-hover);
+}
+
+.dark-theme .custom-select-menu {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+.dark-theme .custom-select-option:hover {
+    background: var(--bg-tertiary);
+}
+
+/* Custom Dropdown Scrollbar */
+.custom-select-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-select-menu::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+.custom-select-menu::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.custom-select-menu::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
 }
 

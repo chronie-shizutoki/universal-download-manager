@@ -48,33 +48,8 @@ class UI {
             });
         }
         
-        // Language selector
-        const languageSelect = document.getElementById('languageSelect');
-        if (languageSelect) {
-            languageSelect.addEventListener('change', (e) => {
-                if (window.i18n) {
-                    window.i18n.setLanguage(e.target.value);
-                }
-            });
-        }
-        
-        // Filter controls
-        const statusFilter = document.getElementById('statusFilter');
-        const categoryFilter = document.getElementById('categoryFilter');
-        
-        if (statusFilter) {
-            statusFilter.addEventListener('change', (e) => {
-                this.filters.status = e.target.value;
-                this.filterDownloads();
-            });
-        }
-        
-        if (categoryFilter) {
-            categoryFilter.addEventListener('change', (e) => {
-                this.filters.category = e.target.value;
-                this.filterDownloads();
-            });
-        }
+        // Language selector is handled by CustomDropdown
+        // Filter controls are handled by CustomDropdown
         
         // Modal close
         const modal = document.getElementById('confirmModal');
@@ -398,7 +373,7 @@ class UI {
         } else if (download.status === 'error') {
             controls.push(`
                 <button class="btn btn-primary btn-sm" data-action="retry" data-gid="${download.gid}">
-                    <i class="fas fa-redo"></i> Retry
+                    <i class="fas fa-redo"></i> ${window.i18n.t('ui.retry')}
                 </button>
             `);
         }
@@ -496,10 +471,10 @@ class UI {
                 </div>
                 <div class="file-actions">
                     <button class="btn btn-primary btn-sm" data-action="download" data-filename="${file.name}">
-                        <i class="fas fa-download"></i> Download
+                        <i class="fas fa-download"></i> ${window.i18n.t('ui.download')}
                     </button>
                     <button class="btn btn-danger btn-sm" data-action="delete" data-filename="${file.name}">
-                        <i class="fas fa-trash"></i> Delete
+                        <i class="fas fa-trash"></i> ${window.i18n.t('ui.delete')}
                     </button>
                 </div>
             </div>
@@ -515,7 +490,7 @@ class UI {
                 
                 if (action === 'delete') {
                     this.showModal(
-                        `Are you sure you want to delete "${filename}"?`,
+                        `${window.i18n.t('messages.confirm_delete')} "${filename}"?`,
                         () => this.handleFileAction(action, filename)
                     );
                 } else {
@@ -533,7 +508,7 @@ class UI {
                     break;
                 case 'delete':
                     await window.api.deleteFile(filename);
-                    this.showToast('File deleted successfully', 'success');
+                    this.showToast(window.i18n.t('messages.file_deleted'), 'success');
                     // Refresh file list
                     if (window.app) {
                         window.app.loadFiles();
@@ -541,7 +516,7 @@ class UI {
                     break;
             }
         } catch (error) {
-            this.showToast(`Action failed: ${error.message}`, 'error');
+            this.showToast(`${window.i18n.t('messages.action_failed')}: ${error.message}`, 'error');
         }
     }
     
